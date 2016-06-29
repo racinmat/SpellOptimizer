@@ -1,18 +1,9 @@
-public class BasicCard extends Card {
+package Optimization.Card;
 
-    public BasicCard(Level level) {
+public class RangeCard extends Card {
+
+    public RangeCard(Level level) {
         super(level);
-    }
-
-    public double getDamage() {
-        int maxNumber = 0;//returns average of dice roll
-        switch (level) {
-            case LEVEL_1: maxNumber = 6; break;
-            case LEVEL_2: maxNumber = 8; break;
-            case LEVEL_3: maxNumber = 10; break;
-            case LEVEL_4: maxNumber = 20; break;
-        }
-        return ( 1 + maxNumber ) / 2;
     }
 
     @Override
@@ -33,6 +24,17 @@ public class BasicCard extends Card {
             case LEVEL_2: return -7;
             case LEVEL_3: return -10;
             case LEVEL_4: return -15;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getRangeIncrease() {
+        switch (level) {
+            case LEVEL_1: return 1;
+            case LEVEL_2: return 2;
+            case LEVEL_3: return 3;
+            case LEVEL_4: return 4;
         }
         return 0;
     }

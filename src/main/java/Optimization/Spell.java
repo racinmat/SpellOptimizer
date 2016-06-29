@@ -1,3 +1,7 @@
+package Optimization;
+
+import Optimization.Card.Card;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -79,7 +83,7 @@ public class Spell {
 
     @Override
     public String toString() {
-        return "Spell{" +
+        return "Optimization.Spell{" +
                 "cards=" + cards.toString() +
                 '}';
     }

@@ -1,3 +1,8 @@
+package Optimization;
+
+import Optimization.Optimizer.NaiveOptimizer;
+import Optimization.Optimizer.Optimizer;
+
 /**
  * Created by Azathoth on 29. 6. 2016.
  */
