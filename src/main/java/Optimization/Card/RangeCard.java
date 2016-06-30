@@ -39,4 +39,9 @@ public class RangeCard extends Card {
         return 0;
     }
 
+    @Override
+    public Card clone() throws CloneNotSupportedException {
+        return new RangeCard(level);
+    }
+
 }

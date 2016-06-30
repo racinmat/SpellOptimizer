@@ -1,7 +1,7 @@
 package Optimization.Optimizer;
 
-import Optimization.Card.Level;
-import Optimization.Optimizer;
+import Optimization.Card.*;
+import Optimization.Spell;
 
 public class NaiveOptimizer extends Optimizer {
 

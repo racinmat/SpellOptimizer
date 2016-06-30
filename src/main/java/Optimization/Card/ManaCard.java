@@ -28,4 +28,9 @@ public class ManaCard extends Card {
         return 0;
     }
 
+    @Override
+    public Card clone() throws CloneNotSupportedException {
+        return new ManaCard(level);
+    }
+
 }

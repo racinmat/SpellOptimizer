@@ -39,4 +39,9 @@ public class DamageCard extends Card {
         return 0;
     }
 
+    @Override
+    public Card clone() throws CloneNotSupportedException {
+        return new DamageCard(level);
+    }
+
 }

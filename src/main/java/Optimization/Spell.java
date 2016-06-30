@@ -5,7 +5,7 @@ import Optimization.Card.Card;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Spell {
+public class Spell implements Cloneable {
 
     public Collection<Card> cards;
 
@@ -42,7 +42,15 @@ public class Spell {
         for (Card card : cards) {
             totalDamage += card.getDamage();
         }
-        return totalDamage * getDuration();
+        return totalDamage * getDuration() * getAffectedArea();
+    }
+
+    public int getAffectedArea() {
+        int radius = 0;
+        for (Card card : cards) {
+            radius += card.getAreaRadiusIncrease();
+        }
+        return HexMath.getArea(radius);
     }
 
     public int getDuration() {
@@ -86,5 +94,14 @@ public class Spell {
         return "Optimization.Spell{" +
                 "cards=" + cards.toString() +
                 '}';
+    }
+
+    @Override
+    public Spell clone() throws CloneNotSupportedException {
+        Spell spell = new Spell();
+        for (Card card : cards) {
+            spell.cards.add(card.clone());
+        }
+        return spell;
     }
 }

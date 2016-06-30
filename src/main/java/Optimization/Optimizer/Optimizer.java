@@ -1,5 +1,7 @@
 package Optimization.Optimizer;
 
+import Optimization.Spell;
+
 /**
  * Created by Azathoth on 29. 6. 2016.
  */

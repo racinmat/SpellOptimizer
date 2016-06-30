@@ -1,6 +1,6 @@
 package Optimization.Card;
 
-abstract public class Card {
+abstract public class Card implements Cloneable {
 
     public Level level;
 
@@ -44,6 +44,10 @@ abstract public class Card {
         return 0;
     }
 
+    public int getAreaRadiusIncrease() {
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "card.Optimization.Card{" +
@@ -51,4 +55,7 @@ abstract public class Card {
                 "class=" + getClass().toString() +
                 '}';
     }
+
+    @Override
+    abstract public Card clone() throws CloneNotSupportedException;
 }
