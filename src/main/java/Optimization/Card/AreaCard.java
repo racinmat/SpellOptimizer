@@ -24,24 +24,12 @@ public class AreaCard extends Card {
 
     @Override
     public int getMana() {
-        switch (level) {
-            case LEVEL_1: return 3;
-            case LEVEL_2: return 4;
-            case LEVEL_3: return 6;
-            case LEVEL_4: return 9;
-        }
-        return 0;
+        return level.getAreaCardMana();
     }
 
     @Override
     public int getCastChanceBonus() {
-        switch (level) {
-            case LEVEL_1: return -10;
-            case LEVEL_2: return -15;
-            case LEVEL_3: return -30;
-            case LEVEL_4: return -45;
-        }
-        return 0;
+        return level.getAreaCastChance();
     }
 
 }

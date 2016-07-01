@@ -50,10 +50,10 @@ abstract public class Card implements Cloneable {
 
     @Override
     public String toString() {
-        return "card.Optimization.Card{" +
+        return "\nCard{" +
                 "level=" + level +
-                "class=" + getClass().toString() +
-                '}';
+                ", " + getClass().toString() +
+                "}";
     }
 
     @Override

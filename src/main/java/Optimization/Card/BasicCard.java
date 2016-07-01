@@ -19,24 +19,12 @@ public class BasicCard extends Card {
 
     @Override
     public int getMana() {
-        switch (level) {
-            case LEVEL_1: return 3;
-            case LEVEL_2: return 4;
-            case LEVEL_3: return 6;
-            case LEVEL_4: return 9;
-        }
-        return 0;
+        return level.getBasicCardMana();
     }
 
     @Override
     public int getCastChanceBonus() {
-        switch (level) {
-            case LEVEL_1: return -5;
-            case LEVEL_2: return -7;
-            case LEVEL_3: return -10;
-            case LEVEL_4: return -15;
-        }
-        return 0;
+        return level.getBasicCastChance();
     }
 
     @Override

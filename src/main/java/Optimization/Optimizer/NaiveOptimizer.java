@@ -5,7 +5,7 @@ import Optimization.Spell;
 
 public class NaiveOptimizer extends Optimizer {
 
-    public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount) {
+    public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount, int minimalCastChance) {
         Spell best = new Spell();
         for (int basic = 0; basic < maxCardCount; basic++) {
             for (Level level : Level.values()) {
@@ -46,8 +46,9 @@ public class NaiveOptimizer extends Optimizer {
 
                                                                 int manaCost = spell.getMana();
                                                                 int castTime = spell.getCastTime();
+                                                                int castChance = spell.getCastChanceBonus();
                                                                 int cardCount = spell.cards.size();
-                                                                if (manaCost <= maxMana && cardCount <= maxCardCount && castTime <= maximalCastTime) {
+                                                                if (manaCost <= maxMana && cardCount <= maxCardCount && castTime <= maximalCastTime && castChance >= minimalCastChance) {
                                                                     if (spell.getCostFunction() < best.getCostFunction()) {
                                                                         best = spell;
                                                                         System.out.println("Found best, cost function is " + best.getCostFunction());

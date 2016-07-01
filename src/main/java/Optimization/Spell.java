@@ -42,7 +42,7 @@ public class Spell implements Cloneable {
         for (Card card : cards) {
             totalDamage += card.getDamage();
         }
-        return totalDamage * getDuration() * getAffectedArea();
+        return totalDamage * getDuration();
     }
 
     public int getAffectedArea() {
@@ -91,8 +91,11 @@ public class Spell implements Cloneable {
 
     @Override
     public String toString() {
-        return "Optimization.Spell{" +
-                "cards=" + cards.toString() +
+        return "Spell{" +
+                "\n, cast chance=" + getCastChanceBonus() +
+                "\n, cast time=" + getCastTime() +
+                "\n, mana=" + getMana() +
+                "\n, cards=\n" + cards.toString() +
                 '}';
     }
 
@@ -104,4 +107,5 @@ public class Spell implements Cloneable {
         }
         return spell;
     }
+
 }

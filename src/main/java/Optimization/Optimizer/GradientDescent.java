@@ -4,19 +4,54 @@ import Optimization.Card.*;
 import Optimization.Spell;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class GradientDescent extends Optimizer {
 
-    public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount) {
-        Spell spell = getInitialSpell(maxCardCount);
-        Spell best = new Spell();
+    private int retries;
 
-        while ( ! spell.equals(best)) {
-            Collection<Spell> neighbours = getNeighbourSpells(spell);
+    public GradientDescent(int retries) {
+        this.retries = retries;
+    }
+
+    public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount, int minimalCastChance) {
+        List<Spell> localMinima = new ArrayList<>();
+        for (int i = 0; i < retries; i++) {
+            localMinima.add(findLocalMinimum(maximalCastTime, maxMana, maxCardCount, minimalCastChance));
         }
+        Spell best = localMinima.get(0);
+        for (Spell localMinimum : localMinima) {
+            if (localMinimum.getCostFunction() < best.getCostFunction()) {
+                best = localMinimum;
+            }
+        }
+        return best;
+    }
+
+    private Spell findLocalMinimum(int maximalCastTime, int maxMana, int maxCardCount, int minimalCastChance) {
+        Spell best;
+        do {
+            best = getInitialSpell(maxCardCount);
+        } while (best.getMana() > maxMana || best.cards.size() > maxCardCount || best.getCastTime() > maximalCastTime || best.getCastChanceBonus() < minimalCastChance);
+        boolean extremeDetected;
+        do {
+            extremeDetected = true;
+            Collection<Spell> neighbours = getNeighbourSpells(best);
+            for (Spell neighbour : neighbours) {
+                int manaCost = neighbour.getMana();
+                int castTime = neighbour.getCastTime();
+                int castChance = neighbour.getCastChanceBonus();
+                int cardCount = neighbour.cards.size();
+                if (manaCost <= maxMana && cardCount <= maxCardCount && castTime <= maximalCastTime && castChance <= minimalCastChance) {
+                    if (neighbour.getCostFunction() < best.getCostFunction()) {
+                        best = neighbour;
+                        extremeDetected = false;
+                        System.out.println("Found best, cost function is " + best.getCostFunction());
+                    }
+                }
+            }
+        } while ( ! extremeDetected);
         return best;
     }
 
@@ -64,9 +99,12 @@ public class GradientDescent extends Optimizer {
                 }
                 try {
                     Spell neighbour = spell.clone();
-//                    if (neighbour.cards.stream().fi)
-                    //TODO: implement card removing to get to neighbouring state
-                    neighbours.add(neighbour);
+                    Stream<Card> sameCards = neighbour.cards.stream().filter((Card card) -> card.getClass().equals(cardType.getCardClass()) && card.level == level);
+                    Optional<Card> sameCard = sameCards.findFirst();
+                    if (sameCard.isPresent()) {
+                        neighbour.cards.remove(sameCard.get());
+                        neighbours.add(neighbour);
+                    }
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }

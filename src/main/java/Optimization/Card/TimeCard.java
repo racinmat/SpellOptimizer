@@ -8,24 +8,12 @@ public class TimeCard extends Card {
 
     @Override
     public int getMana() {
-        switch (level) {
-            case LEVEL_1: return 10;
-            case LEVEL_2: return 15;
-            case LEVEL_3: return 22;
-            case LEVEL_4: return 33;
-        }
-        return 0;
+        return level.getTimeCardMana();
     }
 
     @Override
     public int getCastChanceBonus() {
-        switch (level) {
-            case LEVEL_1: return -15;
-            case LEVEL_2: return -22;
-            case LEVEL_3: return -33;
-            case LEVEL_4: return -49;
-        }
-        return 0;
+        return level.getTimeCastChance();
     }
 
     @Override

@@ -7,6 +7,6 @@ import Optimization.Spell;
  */
 abstract public class Optimizer {
 
-    abstract public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount);
+    abstract public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount, int minimalCastChance);
 
 }
