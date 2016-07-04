@@ -14,7 +14,7 @@ public class BasicCard extends Card {
             case LEVEL_3: maxNumber = 10; break;
             case LEVEL_4: maxNumber = 20; break;
         }
-        return ( 1 + maxNumber ) / 2;
+        return ( 1 + (double) maxNumber ) / 2;
     }
 
     @Override

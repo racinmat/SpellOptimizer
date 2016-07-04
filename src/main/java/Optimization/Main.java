@@ -1,14 +1,17 @@
 package Optimization;
 
-import Optimization.Optimizer.GradientDescent;
-import Optimization.Optimizer.NaiveOptimizer;
-import Optimization.Optimizer.Optimizer;
+import Optimization.Optimizer.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        Optimizer optimizer = new GradientDescent(1000);
-        Spell spell = optimizer.optimize(2, 30, 10, -30);
+        Optimizer optimizer;
+        optimizer = new LinearProgrammingOptimizer();
+        int minCastChance = -5;
+        int maxActions = 2;
+        int maxMana = 30;
+        int maxCards = 10;
+        Spell spell = optimizer.optimize(maxActions, maxMana, maxCards, minCastChance);
         System.out.println(spell.toString());
     }
 

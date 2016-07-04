@@ -92,11 +92,13 @@ public class Spell implements Cloneable {
     @Override
     public String toString() {
         return "Spell{" +
-                "\n, cast chance=" + getCastChanceBonus() +
-                "\n, cast time=" + getCastTime() +
-                "\n, mana=" + getMana() +
-                "\n, cards=\n" + cards.toString() +
-                '}';
+                "\ncast chance=" + getCastChanceBonus() +
+                ", \ncast time=" + getCastTime() +
+                ", \nmana=" + getMana() +
+                ", \ncards=\n" + cards.size() +
+//                ", \ncards=\n" + cards.toString() +
+                "\n}"
+        ;
     }
 
     @Override

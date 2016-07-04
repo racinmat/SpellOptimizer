@@ -57,6 +57,10 @@ public enum Level {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
+    public static Level fromInteger(int number) {
+        return VALUES.get(number);
+    }
+
     public int getAreaCardMana() {
         return areaCardMana;
     }

@@ -47,7 +47,7 @@ public class GradientDescent extends Optimizer {
                     if (neighbour.getCostFunction() < best.getCostFunction()) {
                         best = neighbour;
                         extremeDetected = false;
-                        System.out.println("Found best, cost function is " + best.getCostFunction());
+//                        System.out.println("Found best, cost function is " + best.getCostFunction());
                     }
                 }
             }
