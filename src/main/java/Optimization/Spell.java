@@ -34,7 +34,7 @@ public class Spell implements Cloneable {
         for (Card card : cards) {
             totalReduction += card.getCastTimeReduction();
         }
-        return (int) Math.ceil(cards.size()) - totalReduction;
+        return (int) Math.ceil(cards.size() / 3) - totalReduction;
     }
 
     public double getTotalDamage() {
@@ -95,8 +95,8 @@ public class Spell implements Cloneable {
                 "\ncast chance=" + getCastChanceBonus() +
                 ", \ncast time=" + getCastTime() +
                 ", \nmana=" + getMana() +
-                ", \ncards=\n" + cards.size() +
-//                ", \ncards=\n" + cards.toString() +
+                ", \ncards amount=" + cards.size() +
+                ", \ncards=\n" + cards.toString() +
                 "\n}"
         ;
     }

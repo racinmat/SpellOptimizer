@@ -16,45 +16,45 @@ public class IntegerLinearProgrammingOptimizer extends AbstractLinearProgramming
     public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount, int minimalCastChance) {
 
         String[] names = new String[] {
-                AreaCard.class.toString() + " Level 1",
-                AreaCard.class.toString() + " Level 2",
-                AreaCard.class.toString() + " Level 3",
-                AreaCard.class.toString() + " Level 4",
+                "Area 1",
+                "Area 2",
+                "Area 3",
+                "Area 4",
 
-                BasicCard.class.toString() + " Level 1",
-                BasicCard.class.toString() + " Level 2",
-                BasicCard.class.toString() + " Level 3",
-                BasicCard.class.toString() + " Level 4",
+                "Basic 1",
+                "Basic 2",
+                "Basic 3",
+                "Basic 4",
 
-                CastingCard.class.toString() + " Level 1",
-                CastingCard.class.toString() + " Level 2",
-                CastingCard.class.toString() + " Level 3",
-                CastingCard.class.toString() + " Level 4",
+                "Casting 1",
+                "Casting 2",
+                "Casting 3",
+                "Casting 4",
 
-                DamageCard.class.toString() + " Level 1",
-                DamageCard.class.toString() + " Level 2",
-                DamageCard.class.toString() + " Level 3",
-                DamageCard.class.toString() + " Level 4",
+                "Damage 1",
+                "Damage 2",
+                "Damage 3",
+                "Damage 4",
 
-                DurationCard.class.toString() + " Level 1",
-                DurationCard.class.toString() + " Level 2",
-                DurationCard.class.toString() + " Level 3",
-                DurationCard.class.toString() + " Level 4",
+                "Duration 1",
+                "Duration 2",
+                "Duration 3",
+                "Duration 4",
 
-                ManaCard.class.toString() + " Level 1",
-                ManaCard.class.toString() + " Level 2",
-                ManaCard.class.toString() + " Level 3",
-                ManaCard.class.toString() + " Level 4",
+                "Mana 1",
+                "Mana 2",
+                "Mana 3",
+                "Mana 4",
 
-                RangeCard.class.toString() + " Level 1",
-                RangeCard.class.toString() + " Level 2",
-                RangeCard.class.toString() + " Level 3",
-                RangeCard.class.toString() + " Level 4",
+                "Range 1",
+                "Range 2",
+                "Range 3",
+                "Range 4",
 
-                TimeCard.class.toString() + " Level 1",
-                TimeCard.class.toString() + " Level 2",
-                TimeCard.class.toString() + " Level 3",
-                TimeCard.class.toString() + " Level 4",
+                "Time 1",
+                "Time 2",
+                "Time 3",
+                "Time 4",
         };
 
         Class<? extends Card>[] classes = new Class[] {
@@ -169,9 +169,12 @@ public class IntegerLinearProgrammingOptimizer extends AbstractLinearProgramming
 
         Spell spell = new Spell();
         for (int i = 0; i < damage.length; i++) {
+//            if (i % 4 == 0) {
+//                System.out.println("");
+//            }
 //            System.out.print(names[i] + ": ");
             int cardAmount = (int) result.getPrimalValue(Integer.toString(i));
-//            System.out.println(cardAmount);
+//            System.out.print(cardAmount + ",");
 
 
             try {
@@ -184,6 +187,7 @@ public class IntegerLinearProgrammingOptimizer extends AbstractLinearProgramming
             }
         }
 
+//        System.out.println("");
         return spell;
     }
 
