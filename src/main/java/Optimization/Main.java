@@ -23,8 +23,7 @@ import java.util.Map;
 
 public class Main extends Application {
 
-//    Spell spell;
-    Text spellText;
+    private Text spellText;
 
 
     public static void main(String[] args) {
@@ -33,7 +32,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        spell = new Spell();
+
+//        String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//        String jarName = new java.io.File(jarPath).getName();
+//        String pathWithoutFile = jarPath.substring(1).replace(jarName, "");
+//        System.load(pathWithoutFile + "lpsolve55.dll");
+//        System.load(pathWithoutFile + "lpsolve55j.dll");
+//        System.loadLibrary("lpsolve55");
+//        System.loadLibrary("lpsolve55j");
 
         primaryStage.setTitle("Spell optimizer");
 
