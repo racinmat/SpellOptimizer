@@ -1,18 +1,101 @@
 package Optimization;
 
-import Optimization.Optimizer.*;
+import Optimization.Optimizer.IntegerLinearProgrammingOptimizer;
+import Optimization.Optimizer.Optimizer;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
+
+//    Spell spell;
+    Text spellText;
+
 
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+//        spell = new Spell();
+
+        primaryStage.setTitle("Spell optimizer");
+
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+
+        Scene scene = new Scene(grid, 1020, 1020);
+        primaryStage.setScene(scene);
+
+        Label minCastChanceLabel = new Label("Minimal cast chance");
+        Label maxActionsLabel = new Label("Maximal actions to cast");
+        Label maxManaLabel = new Label("Maximal mana cost");
+        Label maxCardsLabel = new Label("Maximal cards amount");
+
+        TextField minCastChanceField = new TextField("0");
+        TextField maxActionsField = new TextField("0");
+        TextField maxManaField = new TextField("0");
+        TextField maxCardsField = new TextField("0");
+
+        Button startOptimizationButton = new Button("Find optimal spell");
+
+        grid.add(minCastChanceLabel, 0, 1);
+        grid.add(maxActionsLabel, 0, 2);
+        grid.add(maxManaLabel, 0, 3);
+        grid.add(maxCardsLabel, 0, 4);
+
+        grid.add(minCastChanceField, 1, 1);
+        grid.add(maxActionsField, 1, 2);
+        grid.add(maxManaField, 1, 3);
+        grid.add(maxCardsField, 1, 4);
+
+        startOptimizationButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        grid.add(startOptimizationButton, 0, 5, 2, 1);
+
+        startOptimizationButton.setOnAction(event -> {
+            System.out.println("started optimization");
+            int minCastChance = Integer.parseInt(minCastChanceField.getText());
+            int maxActions = Integer.parseInt(maxActionsField.getText());
+            int maxMana = Integer.parseInt(maxManaField.getText());
+            int maxCards = Integer.parseInt(maxCardsField.getText());
+            optimize(minCastChance, maxActions, maxMana, maxCards);
+        });
+
+        Label optimalSpellLabel = new Label("Optimal spell:");
+        grid.add(optimalSpellLabel, 0, 6);
+
+        HBox hbox = new HBox();
+        spellText = new Text(new Spell().toString());
+        hbox.getChildren().add(spellText);
+        hbox.setStyle("-fx-border-color: black;");
+
+        grid.add(hbox, 0, 7, 2, 4);
+
+        primaryStage.show();
+    }
+
+    private void optimize(int minCastChance, int maxActions, int maxMana, int maxCards) {
         Optimizer optimizer;
         optimizer = new IntegerLinearProgrammingOptimizer();
-        int minCastChance = -70;
-        int maxActions = 2;
-        int maxMana = 30;
-        int maxCards = 30;
         Spell spell = optimizer.optimize(maxActions, maxMana, maxCards, minCastChance);
         System.out.println(spell.toString());
+        spellText.setText(spell.toString());
+
     }
 
 }
