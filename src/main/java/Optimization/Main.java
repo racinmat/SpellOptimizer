@@ -1,5 +1,6 @@
 package Optimization;
 
+import Optimization.Card.*;
 import Optimization.Optimizer.IntegerLinearProgrammingOptimizer;
 import Optimization.Optimizer.Optimizer;
 import javafx.application.Application;
@@ -16,6 +17,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main extends Application {
 
@@ -68,12 +72,16 @@ public class Main extends Application {
         grid.add(startOptimizationButton, 0, 5, 2, 1);
 
         startOptimizationButton.setOnAction(event -> {
-            System.out.println("started optimization");
-            int minCastChance = Integer.parseInt(minCastChanceField.getText());
-            int maxActions = Integer.parseInt(maxActionsField.getText());
-            int maxMana = Integer.parseInt(maxManaField.getText());
-            int maxCards = Integer.parseInt(maxCardsField.getText());
-            optimize(minCastChance, maxActions, maxMana, maxCards);
+            try {
+                System.out.println("started optimization");
+                int minCastChance = Integer.parseInt(minCastChanceField.getText());
+                int maxActions = Integer.parseInt(maxActionsField.getText());
+                int maxMana = Integer.parseInt(maxManaField.getText());
+                int maxCards = Integer.parseInt(maxCardsField.getText());
+                optimize(minCastChance, maxActions, maxMana, maxCards);
+            } catch (Exception e) {
+                spellText.setText(e.getMessage());
+            }
         });
 
         Label optimalSpellLabel = new Label("Optimal spell:");
@@ -93,9 +101,51 @@ public class Main extends Application {
         Optimizer optimizer;
         optimizer = new IntegerLinearProgrammingOptimizer();
         Spell spell = optimizer.optimize(maxActions, maxMana, maxCards, minCastChance);
-        System.out.println(spell.toString());
-        spellText.setText(spell.toString());
+//        System.out.println(spell.toString());
+        String spellInfo = "";
+        spellInfo += "cast chance bonus = " + spell.getCastChanceBonus() + "\n";
+        spellInfo += "cast time in actions = " + spell.getCastTime() + "\n";
+        spellInfo += "mana cost = " + spell.getMana() + "\n";
+        spellInfo += "card amount = " + spell.cards.size() + "\n";
 
+        Map<Class<? extends Card>, String> cardNames = new HashMap<>();
+        cardNames.put(AreaCard.class, "Karta oblasti");
+        cardNames.put(BasicCard.class, "Základní karta");
+        cardNames.put(CastingCard.class, "Karta sesílání");
+        cardNames.put(DamageCard.class, "Karta poškození");
+        cardNames.put(DurationCard.class, "Karta trvání");
+        cardNames.put(ManaCard.class, "Karta many");
+        cardNames.put(RangeCard.class, "Karta střely");
+        cardNames.put(TimeCard.class, "Karta času");
+
+        Map<Level, String> levelNames = new HashMap<>();
+        levelNames.put(Level.LEVEL_1, "1");
+        levelNames.put(Level.LEVEL_2, "2");
+        levelNames.put(Level.LEVEL_3, "3");
+        levelNames.put(Level.LEVEL_4, "4");
+
+        Map<Class<? extends Card>, Map<Level, Integer>> cardAmounts = new HashMap<>();
+        for (CardType cardType : CardType.values()) {
+            cardAmounts.put(cardType.getCardClass(), new HashMap<>());
+            for (Level level : Level.values()) {
+                cardAmounts.get(cardType.getCardClass()).put(level, 0);
+            }
+        }
+
+        for (Card card : spell.cards) {
+            int amount = cardAmounts.get(card.getClass()).get(card.level);
+            cardAmounts.get(card.getClass()).put(card.level, amount + 1);
+        }
+        for (Map.Entry<Class<? extends Card>, Map<Level, Integer>> card : cardAmounts.entrySet()) {
+            for (Map.Entry<Level, Integer> level : card.getValue().entrySet()) {
+                if (level.getValue() > 0) {
+                    String cardName = cardNames.get(card.getKey());
+                    spellInfo += "\n" + cardName + ", level " + levelNames.get(level.getKey()) + " = " + level.getValue();
+                }
+            }
+        }
+
+        spellText.setText(spellInfo);
     }
 
 }
