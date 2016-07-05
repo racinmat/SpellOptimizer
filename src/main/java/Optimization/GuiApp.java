@@ -4,8 +4,6 @@ import Optimization.Card.*;
 import Optimization.Optimizer.IntegerLinearProgrammingOptimizer;
 import Optimization.Optimizer.Optimizer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,32 +12,32 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main extends Application {
+public class GuiApp extends Application {
 
     private Text spellText;
 
 
     public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-//        String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//
+//        String jarPath = App.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 //        String jarName = new java.io.File(jarPath).getName();
 //        String pathWithoutFile = jarPath.substring(1).replace(jarName, "");
 //        System.load(pathWithoutFile + "lpsolve55.dll");
 //        System.load(pathWithoutFile + "lpsolve55j.dll");
 //        System.loadLibrary("lpsolve55");
 //        System.loadLibrary("lpsolve55j");
+
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Spell optimizer");
 
@@ -146,7 +144,7 @@ public class Main extends Application {
             for (Map.Entry<Level, Integer> level : card.getValue().entrySet()) {
                 if (level.getValue() > 0) {
                     String cardName = cardNames.get(card.getKey());
-                    spellInfo += "\n" + cardName + ", level " + levelNames.get(level.getKey()) + " = " + level.getValue();
+                    spellInfo += "\n" + cardName + ", level " + levelNames.get(level.getKey()) + " : " + level.getValue();
                 }
             }
         }

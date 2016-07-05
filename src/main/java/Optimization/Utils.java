@@ -1,5 +1,7 @@
 package Optimization;
 
+import org.ejml.simple.SimpleMatrix;
+
 public class Utils {
 
     public static double[][] mergeMatricesHorizontally(double[][]... matrices) {
@@ -20,21 +22,31 @@ public class Utils {
         return result;
     }
 
-//    public static double[][] mergeMatricesVertically(double[][]... matrices) {
-//        int rows = 0;
-//        for (double[][] matrix : matrices) {
-//            rows += matrix.length;
-//        }
-//        double[][] result = new double[rows][matrices[0][0].length];
-//        int i = 0;
-//        for (double[][] matrix : matrices) {
-//            for (double[] row : matrix) {
-//                System.arraycopy(row, 0, result[i], 0, row.length);
-//                i++;
-//            }
-//        }
-//        return result;
-//    }
+    public static double[][] mergeMatricesVertically(double[][]... matrices) {
+        int rows = 0;
+        for (double[][] matrix : matrices) {
+            rows += matrix.length;
+        }
+        double[][] result = new double[rows][matrices[0][0].length];
+        int i = 0;
+        for (double[][] matrix : matrices) {
+            for (double[] row : matrix) {
+                System.arraycopy(row, 0, result[i], 0, row.length);
+                i++;
+            }
+        }
+        return result;
+    }
+
+    public static double[][] matrixTo2Darray(SimpleMatrix matrix) {
+        double[][] arrayMatrix = new double[matrix.numRows()][matrix.numCols()];
+        for (int i = 0; i < arrayMatrix.length; i++) {
+            for (int j = 0; j < arrayMatrix[i].length; j++) {
+                arrayMatrix[i][j] = matrix.get(i, j);
+            }
+        }
+        return arrayMatrix;
+    }
 
     public static double[] mergeArrays(double[]... arrays) {
         int elements = 0;
