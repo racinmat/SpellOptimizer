@@ -1,10 +1,10 @@
 package Optimization.Optimizer;
 
-import Optimization.Card.BasicCard;
-import Optimization.Card.DamageCard;
-import Optimization.Card.Level;
-import Optimization.Card.TimeCard;
+import Optimization.Card.*;
+import Optimization.Spell;
 import Optimization.Utils;
+
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class AbstractLinearProgrammingOptimizer extends Optimizer {
 
@@ -93,6 +93,120 @@ public abstract class AbstractLinearProgrammingOptimizer extends Optimizer {
         };
 
         return Utils.mergeArrays(areaCardDamage, basicCardDamage, castingCardDamage, damageCardDamage, durationCardDamage, manaCardDamage, rangeCardDamage, timeCardDamage);
+    }
 
+    protected Class<? extends Card>[] getCardVariableClasses() {
+        Class<? extends Card>[] classes = new Class[] {
+                AreaCard.class,
+                AreaCard.class,
+                AreaCard.class,
+                AreaCard.class,
+
+                BasicCard.class,
+                BasicCard.class,
+                BasicCard.class,
+                BasicCard.class,
+
+                CastingCard.class,
+                CastingCard.class,
+                CastingCard.class,
+                CastingCard.class,
+
+                DamageCard.class,
+                DamageCard.class,
+                DamageCard.class,
+                DamageCard.class,
+
+                DurationCard.class,
+                DurationCard.class,
+                DurationCard.class,
+                DurationCard.class,
+
+                ManaCard.class,
+                ManaCard.class,
+                ManaCard.class,
+                ManaCard.class,
+
+                RangeCard.class,
+                RangeCard.class,
+                RangeCard.class,
+                RangeCard.class,
+
+                TimeCard.class,
+                TimeCard.class,
+                TimeCard.class,
+                TimeCard.class,
+        };
+        return classes;
+    }
+
+    public String[] getVariableNames() {
+        String[] names = new String[] {
+                "Area 1",
+                "Area 2",
+                "Area 3",
+                "Area 4",
+
+                "Basic 1",
+                "Basic 2",
+                "Basic 3",
+                "Basic 4",
+
+                "Casting 1",
+                "Casting 2",
+                "Casting 3",
+                "Casting 4",
+
+                "Damage 1",
+                "Damage 2",
+                "Damage 3",
+                "Damage 4",
+
+                "Duration 1",
+                "Duration 2",
+                "Duration 3",
+                "Duration 4",
+
+                "Mana 1",
+                "Mana 2",
+                "Mana 3",
+                "Mana 4",
+
+                "Range 1",
+                "Range 2",
+                "Range 3",
+                "Range 4",
+
+                "Time 1",
+                "Time 2",
+                "Time 3",
+                "Time 4",
+        };
+        return names;
+    }
+
+    protected Spell createSpellFromCardAmounts(double[] cardAmounts) {
+        int[] integerCardAmounts = new int[cardAmounts.length];
+        for (int i = 0; i < cardAmounts.length; i++) {
+            integerCardAmounts[i] = (int) Math.floor(cardAmounts[i]);
+        }
+        return createSpellFromCardAmounts(integerCardAmounts);
+    }
+
+    protected Spell createSpellFromCardAmounts(int[] cardAmounts) {
+        Spell spell = new Spell();
+        for (int i = 0; i < cardAmounts.length; i++) {
+            int cardAmount = cardAmounts[i];
+            try {
+                int levelNumber = i % 4;
+                for (int j = 0; j < cardAmount; j++) {
+                    spell.cards.add(getCardVariableClasses()[i].getConstructor(Level.class).newInstance(Level.fromInteger(levelNumber)));
+                }
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return spell;
     }
 }

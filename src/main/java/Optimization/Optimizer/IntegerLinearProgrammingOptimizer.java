@@ -15,89 +15,7 @@ public class IntegerLinearProgrammingOptimizer extends AbstractLinearProgramming
 
     public Spell optimize(int maximalCastTime, int maxMana, int maxCardCount, int minimalCastChance) {
 
-        String[] names = new String[] {
-                "Area 1",
-                "Area 2",
-                "Area 3",
-                "Area 4",
-
-                "Basic 1",
-                "Basic 2",
-                "Basic 3",
-                "Basic 4",
-
-                "Casting 1",
-                "Casting 2",
-                "Casting 3",
-                "Casting 4",
-
-                "Damage 1",
-                "Damage 2",
-                "Damage 3",
-                "Damage 4",
-
-                "Duration 1",
-                "Duration 2",
-                "Duration 3",
-                "Duration 4",
-
-                "Mana 1",
-                "Mana 2",
-                "Mana 3",
-                "Mana 4",
-
-                "Range 1",
-                "Range 2",
-                "Range 3",
-                "Range 4",
-
-                "Time 1",
-                "Time 2",
-                "Time 3",
-                "Time 4",
-        };
-
-        Class<? extends Card>[] classes = new Class[] {
-                AreaCard.class,
-                AreaCard.class,
-                AreaCard.class,
-                AreaCard.class,
-
-                BasicCard.class,
-                BasicCard.class,
-                BasicCard.class,
-                BasicCard.class,
-
-                CastingCard.class,
-                CastingCard.class,
-                CastingCard.class,
-                CastingCard.class,
-
-                DamageCard.class,
-                DamageCard.class,
-                DamageCard.class,
-                DamageCard.class,
-
-                DurationCard.class,
-                DurationCard.class,
-                DurationCard.class,
-                DurationCard.class,
-
-                ManaCard.class,
-                ManaCard.class,
-                ManaCard.class,
-                ManaCard.class,
-
-                RangeCard.class,
-                RangeCard.class,
-                RangeCard.class,
-                RangeCard.class,
-
-                TimeCard.class,
-                TimeCard.class,
-                TimeCard.class,
-                TimeCard.class,
-        };
+        String[] names = getVariableNames();
 
         //G matrix is used for constraints
         double[][] constraints = createConstraintsMatrix();
@@ -141,28 +59,18 @@ public class IntegerLinearProgrammingOptimizer extends AbstractLinearProgramming
 
 //        System.out.println(result);
 
-        Spell spell = new Spell();
+        int[] cardAmounts = new int[damage.length];
         for (int i = 0; i < damage.length; i++) {
-//            if (i % 4 == 0) {
-//                System.out.println("");
-//            }
-//            System.out.print(names[i] + ": ");
-            int cardAmount = (int) result.getPrimalValue(Integer.toString(i));
-//            System.out.print(cardAmount + ",");
-
-
-            try {
-                int levelNumber = i % 4;
-                for (int j = 0; j < cardAmount; j++) {
-                    spell.cards.add(classes[i].getConstructor(Level.class).newInstance(Level.fromInteger(levelNumber)));
-                }
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+            if (i % 4 == 0) {
+                System.out.println("");
             }
+            System.out.print(names[i] + ": ");
+            cardAmounts[i] = (int) result.getPrimalValue(Integer.toString(i));
+            System.out.print(cardAmounts[i] + ",");
         }
 
 //        System.out.println("");
-        return spell;
+        return createSpellFromCardAmounts(cardAmounts);
     }
 
 }
