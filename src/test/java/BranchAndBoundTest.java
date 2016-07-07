@@ -8,7 +8,7 @@ public class BranchAndBoundTest {
     @Test
     public void testBoundAndBranch() {
         IntegerBranchAndBound branchAndBound = new IntegerBranchAndBound(new SolverMock());
-
+        //todo: opravit 2x za sebou lesser or equal 1
         branchAndBound.solve();
 
     }

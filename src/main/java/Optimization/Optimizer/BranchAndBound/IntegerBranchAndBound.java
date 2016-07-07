@@ -46,6 +46,8 @@ public class IntegerBranchAndBound {
             }
 
         }
+
+        this.tree.getRoot().subTreeToString();
         return solution;
     }
 

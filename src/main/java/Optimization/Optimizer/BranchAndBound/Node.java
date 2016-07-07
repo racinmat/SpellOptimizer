@@ -29,6 +29,9 @@ public class Node {
         if (! canBeExpanded()) {
             throw new RuntimeException("Can not be expanded.");
         }
+        if (isExpanded()) {
+            throw new RuntimeException("Already is expanded.");
+        }
 
         List<Pair<Constraint, Integer>> constraints = getConstraints().stream().filter(pair -> pair.getSecond() == variable).collect(Collectors.toList());
         if (constraints.isEmpty()) {
@@ -39,7 +42,9 @@ public class Node {
                 leftChild = new Node(new Constraint(Comparison.LESSER_OR_EQUAL, Math.floor(value)), this, variable);
             }
             rightChild = new Node(new Constraint(Comparison.BIGGER_OR_EQUAL, Math.ceil(value)), this, variable);
+            return;
         }
+
         double lowerBound = 0;
         double higherBound = Double.POSITIVE_INFINITY;
         for (Pair<Constraint, Integer> pair : constraints) {
@@ -133,11 +138,34 @@ public class Node {
     public String toString() {
         return "Node{" +
                 "constraint=" + constraint +
-                ", leftChild=" + leftChild +
-                ", rightChild=" + rightChild +
+//                ", leftChild=" + leftChild +
+//                ", rightChild=" + rightChild +
+                ", parent=" + parent +
                 ", variable=" + variable +
                 ", explored=" + explored +
                 ", solution=" + solution +
                 '}';
     }
+
+    public void subTreeToString() {
+        int level = 0;
+        Node iter = this;
+        while ( ! iter.isRoot()) {
+            level++;
+            iter = iter.getParent();
+        }
+        for (int i = 0; i < level; i++) {
+            System.out.print("\t");
+        }
+        if (isRoot()) {
+            System.out.println("root");
+        } else {
+            System.out.println("variable: " + variable + ", " + constraint.toString());
+        }
+        if (isExpanded()) {
+            leftChild.subTreeToString();
+            rightChild.subTreeToString();
+        }
+    }
+
 }
