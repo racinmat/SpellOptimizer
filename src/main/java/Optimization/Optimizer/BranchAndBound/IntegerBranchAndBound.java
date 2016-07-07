@@ -31,12 +31,12 @@ public class IntegerBranchAndBound {
             //todo: dodělat výběr proměnné
             int variable = 0;
             double value = solution[variable];
-            currentNode = getNextNotExploredNode(currentNode);
             if (currentNode.canBeExpanded()) {
                 currentNode.expand(value, variable);
             } else {
                 throw new RuntimeException("shit happens");
             }
+            currentNode = getNextNotExploredNode(currentNode);
             currentNode.explore();
             try {
                 solution = solver.solve(currentNode.getConstraints());

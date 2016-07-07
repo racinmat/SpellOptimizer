@@ -126,7 +126,7 @@ public class Node {
     }
 
     public boolean canBeExpanded() {
-        return constraint.getComparison() != Comparison.EQUAL;
+        return isRoot() || constraint.getComparison() != Comparison.EQUAL;
     }
 
     @Override
@@ -135,7 +135,6 @@ public class Node {
                 "constraint=" + constraint +
                 ", leftChild=" + leftChild +
                 ", rightChild=" + rightChild +
-                ", parent=" + parent +
                 ", variable=" + variable +
                 ", explored=" + explored +
                 ", solution=" + solution +
