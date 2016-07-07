@@ -9,25 +9,27 @@ import java.util.stream.Collectors;
 public class Node {
 
     private Constraint constraint;
-
     private Node leftChild;
-
     private Node rightChild;
-
     private Node parent;
-
     private int variable;
-
-    private boolean noSolution;
+    private boolean explored;
+    private boolean solution;
 
     public Node(Constraint constraint, Node parent, int variable) {
         this.constraint = constraint;
         this.parent = parent;
         this.variable = variable;
-        this.noSolution = false;
+        this.solution = true;
+        this.explored = false;
+        System.out.println("Creating node: " + toString());
     }
 
     public void expand(double value, int variable) {
+        if (! canBeExpanded()) {
+            throw new RuntimeException("Can not be expanded.");
+        }
+
         List<Pair<Constraint, Integer>> constraints = getConstraints().stream().filter(pair -> pair.getSecond() == variable).collect(Collectors.toList());
         if (constraints.isEmpty()) {
             //expanding root, or first expandion of this variable
@@ -73,5 +75,70 @@ public class Node {
             iter = iter.parent;
         }
         return constraints;
+    }
+
+    public Node getLeftChild() {
+        return leftChild;
+    }
+
+    public Node getRightChild() {
+        return rightChild;
+    }
+
+    public boolean isExplored() {
+        return explored;
+    }
+
+    public void explore() {
+        this.explored = true;
+    }
+
+    public boolean hasSolution() {
+        return solution;
+    }
+
+    public void setNoSolution() {
+        this.solution = false;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public Node getNotExploredChild() throws EverythingExploredException {
+        if ( ! isExplored()) {
+            return this;
+        }
+        if (! isExpanded()) {
+            throw new EverythingExploredException();
+        }
+        try {
+            assert leftChild != null;
+            return leftChild.getNotExploredChild();
+        } catch (EverythingExploredException e) {
+            assert rightChild != null;
+            return rightChild.getNotExploredChild();       //not try-catch in right child. If neither left or right child have not explored child, exception should be thrown.
+        }
+    }
+
+    public boolean isExpanded() {
+        return leftChild != null && rightChild != null;
+    }
+
+    public boolean canBeExpanded() {
+        return constraint.getComparison() != Comparison.EQUAL;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "constraint=" + constraint +
+                ", leftChild=" + leftChild +
+                ", rightChild=" + rightChild +
+                ", parent=" + parent +
+                ", variable=" + variable +
+                ", explored=" + explored +
+                ", solution=" + solution +
+                '}';
     }
 }

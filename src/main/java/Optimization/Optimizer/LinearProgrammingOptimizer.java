@@ -40,7 +40,7 @@ public class LinearProgrammingOptimizer extends AbstractLinearProgrammingOptimiz
         for (int i = 0; i < cardAmounts.length; i++) {
             Class<? extends Card> cardClass = getCardVariableClasses()[i];
             if (cardClass == BasicCard.class || getCardVariableClasses()[i] == DamageCard.class ) {
-                constraints.put(Pair.create(cardClass, Level.fromInteger(i % 4)), (int) Math.floor(cardAmounts[i]));
+                constraints.put(new Pair<>(cardClass, Level.fromInteger(i % 4)), (int) Math.floor(cardAmounts[i]));
             }
         }
 

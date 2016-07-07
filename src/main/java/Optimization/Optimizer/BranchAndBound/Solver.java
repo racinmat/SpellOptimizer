@@ -1,5 +1,6 @@
 package Optimization.Optimizer.BranchAndBound;
 
+import org.apache.commons.math3.util.Pair;
 import java.util.List;
 
 /**
@@ -7,7 +8,6 @@ import java.util.List;
  */
 public interface Solver {
 
-    public double[] solve(List<Constraint> constraints);
+    public double[] solve(List<Pair<Constraint, Integer>> constraints) throws NoSolutionFoundException;
 
-    public boolean isFeasible(double[] solution);
 }

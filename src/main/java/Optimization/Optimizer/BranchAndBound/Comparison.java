@@ -1,18 +1,18 @@
 package Optimization.Optimizer.BranchAndBound;
 
 import org.apache.commons.math3.util.Pair;
-
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public enum Comparison {
 
-    BIGGER (pair -> pair.getFirst() > pair.getSecond(), false, true),
-    LESSER (pair -> pair.getFirst() < pair.getSecond(), true, false),
-    BIGGER_OR_EQUAL (pair -> pair.getFirst() >= pair.getSecond(), false, true),
-    LESSER_OR_EQUAL (pair -> pair.getFirst() <= pair.getSecond(), true, false),
-    EQUAL (pair -> pair.getFirst().equals(pair.getSecond()), false, false);
+    //todo: otestovat chování Double wraperu
+    BIGGER (pair -> pair.getFirst().doubleValue() > pair.getSecond().doubleValue(), false, true),
+    LESSER (pair -> pair.getFirst().doubleValue() < pair.getSecond().doubleValue(), true, false),
+    BIGGER_OR_EQUAL (pair -> pair.getFirst().doubleValue() >= pair.getSecond().doubleValue(), false, true),
+    LESSER_OR_EQUAL (pair -> pair.getFirst().doubleValue() <= pair.getSecond().doubleValue(), true, false),
+    EQUAL (pair -> pair.getFirst().doubleValue() == pair.getSecond().doubleValue(), false, false);
 
     private Predicate<Pair<Double, Double>> comparison;
     private boolean isLesser;

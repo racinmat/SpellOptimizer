@@ -24,4 +24,12 @@ public class Constraint {
     public boolean complies(double value) {
         return comparison.compare(value, limit);
     }
+
+    @Override
+    public String toString() {
+        return "Constraint{" +
+                "comparison=" + comparison +
+                ", limit=" + limit +
+                '}';
+    }
 }
